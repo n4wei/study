@@ -7,21 +7,11 @@ import (
 // 4:33-4:41
 // https://golang.org/pkg/strings/#Index
 func Index(str, substr string) int {
-	if len(str) == 0 || len(substr) == 0 {
-		return -1
-	}
-	for i:=0; i<len(str); i++ {
-		if str[i] == substr[0] {
-			if searchForSubstr(str, substr, i) {
-				return i
-			}
-		}
-	}
-	return -1
+	return NextIndex(str, substr, 0)
 }
 
 func searchForSubstr(str, substr string, i int) bool {
-	for j:=1; j<len(substr); j++ {
+	for j:=0; j<len(substr); j++ {
 		if substr[j] != str[i+j] {
 			return false
 		}
@@ -34,11 +24,9 @@ func NextIndex(str, substr string, i int) int {
 	if len(str) == 0 || len(substr) == 0 || i < 0 || i >= len(str) {
 		return -1
 	}
-	for i<len(str) {
-		if str[i] == substr[0] {
-			if searchForSubstr(str, substr, i) {
-				return i
-			}
+	for i<=len(str)-len(substr) {
+		if searchForSubstr(str, substr, i) {
+			return i
 		}
 		i++
 	}
@@ -93,55 +81,35 @@ func HasPrefix(str, prefix string) bool {
 // 5:10-5:12
 // https://golang.org/pkg/strings/#HasSuffix
 func HasSuffix(str, suffix string) bool {
-	i := Index(str, suffix)
-	return i != -1 && i == len(str)-len(suffix)
+	return NextIndex(str, suffix, len(str)-len(suffix)) != -1
 }
 
 // 9:46-10:16
 // https://golang.org/pkg/strings/#Split
 func Split(str, sep string) []string {
+	result := []string{}
 	if len(str) == 0 && len(sep) == 0 {
-		return []string{}
+		return result
 	}
-
-	var result []string
-	var i int
 
 	if len(sep) == 0 {
 		result = make([]string, 0, len(str))
-		for i=0; i<len(str); i++ {
+		for i:=0; i<len(str); i++ {
 			result = append(result, str[i:i+1])
 		}
 		return result
 	}
 
-	sepIndices := []int{}
-
-	i = -1
+	l, r := 0, 0
 	for {
-		i = NextIndex(str, sep, i+1)
-		if i == -1 {
+		r = NextIndex(str, sep, l)
+		if r == -1 {
 			break
 		}
-		sepIndices = append(sepIndices, i)
+		result = append(result, str[l:r])
+		l = r + len(sep)
 	}
-
-	if len(sepIndices) == 0 && len(sep) > 0 {
-		return []string{str}
-	}
-
-	result = make([]string, 0, len(sepIndices)+1)
-
-	for i=0; i<len(sepIndices); i++ {
-		if i == 0 {
-			result = append(result, str[:sepIndices[0]])
-		} else {
-			result = append(result, str[sepIndices[i-1]+len(sep):sepIndices[i]])
-		}
-		if i == len(sepIndices)-1 {
-			result = append(result, str[sepIndices[i]+len(sep):])
-		}
-	}
+	result = append(result, str[l:])
 
 	return result
 }

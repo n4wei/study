@@ -17,6 +17,7 @@ func TestIndex(t *testing.T) {
 	assertEqual(t, Index("", "b"), -1)
 	assertEqual(t, Index("hello_world", "_"), 5)
 	assertEqual(t, Index("hello_world", "llo"), 2)
+	assertEqual(t, Index("hello_world", "rld"), 8)
 	assertEqual(t, Index("hello_world", "x"), -1)
 }
 
@@ -62,6 +63,7 @@ func TestHasSuffix(t *testing.T) {
 	assertEqual(t, HasSuffix("", "b"), false)
 	assertEqual(t, HasSuffix("hello_world", "hello"), false)
 	assertEqual(t, HasSuffix("hello_world", "world"), true)
+	assertEqual(t, HasSuffix("abcabc", "abc"), true)
 }
 
 func TestSplit(t *testing.T) {
