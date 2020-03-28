@@ -1,27 +1,6 @@
-package main
-
-import (
-	"fmt"
-)
+package stack
 
 // 4:15-4:27
-func main() {
-	fmt.Println("Stack of strings")
-	strStack := NewStringStack()
-	fmt.Println(strStack.Pop())
-	strStack.Push("a")
-	strStack.Push("b")
-	strStack.Push("c")
-	fmt.Println(strStack.Len())
-	fmt.Println(strStack.Pop())
-	fmt.Println(strStack.Pop())
-	fmt.Println(strStack.Len())
-	strStack.Push("d")
-	fmt.Println(strStack.Len())
-	fmt.Println(strStack.Pop())
-	fmt.Println(strStack.Pop())
-	fmt.Println(strStack.Len())
-}
 
 type StringStack struct {
 	store []string
