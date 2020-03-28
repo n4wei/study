@@ -1,68 +1,8 @@
-package main
+package stringz
 
 import (
-	"fmt"
 	"strings"
 )
-
-func main() {
-	fmt.Println("Index()")
-	fmt.Println(Index("", "wor"))
-	fmt.Println(Index("hello_world", ""))
-	fmt.Println(Index("hello_world", "llo"))
-	fmt.Println(Index("hello_world", "x"))
-
-	fmt.Println("NextIndex()")
-	fmt.Println(NextIndex("", "wor", 0))
-	fmt.Println(NextIndex("hello_world", "", 0))
-	fmt.Println(NextIndex("hello_world", "llo", 0))
-	fmt.Println(NextIndex("hello_world", "llo", 3))
-	fmt.Println(NextIndex("hello_world", "o", 5))
-
-	fmt.Println("Compare()")
-	fmt.Println(Compare("", ""))
-	fmt.Println(Compare("a", ""))
-	fmt.Println(Compare("", "b"))
-	fmt.Println(Compare("wor", "wor"))
-	fmt.Println(Compare("wor", "world"))
-	fmt.Println(Compare("world", "wor"))
-
-	fmt.Println("Contains()")
-	fmt.Println(Contains("", "wor"))
-	fmt.Println(Contains("hello_world", ""))
-	fmt.Println(Contains("hello_world", "llo"))
-	fmt.Println(Contains("hello_world", "x"))
-
-	fmt.Println("HasPrefix()")
-	fmt.Println(HasPrefix("hello_world", "hello"))
-	fmt.Println(HasPrefix("hello_world", "world"))
-
-	fmt.Println("HasSuffix()")
-	fmt.Println(HasSuffix("hello_world", "hello"))
-	fmt.Println(HasSuffix("hello_world", "world"))
-
-	fmt.Println("Split()")
-	fmt.Println(Split("", ""))
-	fmt.Println(Split("", "a"))
-	fmt.Println(Split("abc", ""))
-	fmt.Println(Split("hello_world", "*"))
-	fmt.Println(Split("hello_world", "_"))
-	fmt.Println(Split("hello_world", "o_w"))
-	fmt.Println(Split("abcabc", "a"))
-	fmt.Println(Split("hello_world", "l"))
-
-	fmt.Println("Replace()")
-	fmt.Println(Replace("", "b", "x", -1))
-	fmt.Println(Replace("abcabc", "b", "x", 1))
-	fmt.Println(Replace("abcabc", "b", "x", -1))
-	fmt.Println(Replace("abcabc", "", "x", -1))
-	fmt.Println(Replace("abcabc", "b", "", -1))
-	fmt.Println(Replace("abcabca", "a", "x", -1))
-
-	fmt.Println("Join()")
-	fmt.Println(Join([]string{}, "x"))
-	fmt.Println(Join([]string{"a", "b", "c"}, "-"))
-}
 
 // 4:33-4:41
 // https://golang.org/pkg/strings/#Index
@@ -153,7 +93,8 @@ func HasPrefix(str, prefix string) bool {
 // 5:10-5:12
 // https://golang.org/pkg/strings/#HasSuffix
 func HasSuffix(str, suffix string) bool {
-	return Index(str, suffix) == len(str)-len(suffix)
+	i := Index(str, suffix)
+	return i != -1 && i == len(str)-len(suffix)
 }
 
 // 9:46-10:16
