@@ -80,11 +80,12 @@ func TestSplit(t *testing.T) {
 func TestReplace(t *testing.T) {
 	assertEqual(t, Replace("", "", "", -1), "")
 	assertEqual(t, Replace("", "b", "x", -1), "")
-	assertEqual(t, Replace("abcabc", "b", "x", 1), "axcac")
 	assertEqual(t, Replace("abcabc", "b", "x", -1), "axcaxc")
 	assertEqual(t, Replace("abcabc", "", "x", -1), "xaxbxcxaxbx")
 	assertEqual(t, Replace("abcabc", "b", "", -1), "acac")
 	assertEqual(t, Replace("abcabca", "a", "x", -1), "xbcxbcx")
+	assertEqual(t, Replace("abcabcabc", "b", "x", 2), "axcaxcabc")
+	assertEqual(t, Replace("abcabcabc", "b", "", 2), "acacabc")
 }
 
 func TestJoin(t *testing.T) {

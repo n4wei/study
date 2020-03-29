@@ -32,7 +32,7 @@ func fibMemo(memo []int, n int) int {
 }
 */
 
-// runtime O(n*n)
+// runtime O(n)
 // space O(n)
 func fibRecursiveMemo(n int) int {
 	if n < 2 {

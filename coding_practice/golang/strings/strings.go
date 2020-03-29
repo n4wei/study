@@ -24,11 +24,10 @@ func NextIndex(str, substr string, i int) int {
 	if len(str) == 0 || len(substr) == 0 || i < 0 || i >= len(str) {
 		return -1
 	}
-	for i<=len(str)-len(substr) {
+	for ; i<=len(str)-len(substr); i++ {
 		if searchForSubstr(str, substr, i) {
 			return i
 		}
-		i++
 	}
 	return -1
 }
@@ -36,34 +35,22 @@ func NextIndex(str, substr string, i int) int {
 // 4:58-5:06
 // https://golang.org/pkg/strings/#Compare
 func Compare(a, b string) int {
-	if a == "" && b == "" {
-		return 0
-	}
-
-	i:=0
-	for {
-		if i == len(a) && i == len(b) {
-			return 0
-		}
-		if i == len(a) {
-			return -1
-		}
-		if i == len(b) {
-			return 1
-		}
-
+	for i:=0; i<len(a) && i<len(b); i++ {
 		if a[i] < b[i] {
 			return -1
 		}
 		if a[i] > b[i] {
 			return 1
 		}
-
-		i++
 	}
 
-	// deadcode
-	return -1
+	if len(a) == len(b) {
+		return 0
+	}
+	if len(a) < len(b) {
+		return -1
+	}
+	return 1
 }
 
 // 5:06-5:07
@@ -92,6 +79,7 @@ func Split(str, sep string) []string {
 		return result
 	}
 
+	var i int
 	if len(sep) == 0 {
 		result = make([]string, 0, len(str))
 		for i:=0; i<len(str); i++ {
@@ -100,16 +88,17 @@ func Split(str, sep string) []string {
 		return result
 	}
 
-	l, r := 0, 0
+	rest := str
+	var first string
 	for {
-		r = NextIndex(str, sep, l)
-		if r == -1 {
+		i = NextIndex(rest, sep, 0)
+		if i == -1 {
 			break
 		}
-		result = append(result, str[l:r])
-		l = r + len(sep)
+		first, rest = rest[:i], rest[i+len(sep):]
+		result = append(result, first)
 	}
-	result = append(result, str[l:])
+	result = append(result, rest)
 
 	return result
 }
@@ -136,9 +125,13 @@ func Replace(str, old, new string, n int) string {
 	} else {
 		for i=0; i<len(parts)-1; i++ {
 			results = append(results, parts[i])
-			if len(new) > 0 && (n > 0 || n < 0) {
-				results = append(results, new)
+			if (n > 0 || n < 0) {
+				if len(new) > 0 {
+					results = append(results, new)
+				}
 				n--
+			} else {
+				results = append(results, old)
 			}
 		}
 		results = append(results, parts[len(parts)-1])
